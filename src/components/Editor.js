@@ -104,7 +104,12 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
     if (socketRef.current) {
       socketRef.current.on(ACTIONS.CODE_CHANGE, ({ code }) => {
         if (code !== null) {
+          // Save the current cursor position
+          const cursor = editorRef.current.getCursor();
+          // Update the editor content
           editorRef.current.setValue(code);
+          // Restore the cursor position
+          editorRef.current.setCursor(cursor);
         }
       });
     }
