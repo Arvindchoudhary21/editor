@@ -26,7 +26,7 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [Lang, setLang] = useState('python');
-  
+
   const modeOptions = {
     javascript: { name: 'javascript', json: true },
     python: { name: 'python' },
@@ -106,10 +106,14 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
         if (code !== null) {
           // Save the current cursor position
           const cursor = editorRef.current.getCursor();
+          // Save the current scroll position
+          const scrollInfo = editorRef.current.getScrollInfo();
           // Update the editor content
           editorRef.current.setValue(code);
           // Restore the cursor position
           editorRef.current.setCursor(cursor);
+          // Restore the scroll position
+          editorRef.current.scrollTo(scrollInfo.left, scrollInfo.top);
         }
       });
     }
@@ -187,7 +191,7 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
             <option value="python">python</option>
             <option value="cplusplus">Cpp</option>
             <option value="java">Java</option>
-            
+
           </select>
         </div>
         <div>
