@@ -1,38 +1,255 @@
-.App {
-  text-align: center;
+.homePageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
+.formWrapper {
+  background: #422b50;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  /* margin-left: 630px; */
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainLabel {
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.homePageLogo {
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+.inputBox {
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  margin-bottom: 14px;
+  background: #eee;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.btn {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-weight: bold;
+}
+
+.joinBtn,
+.leaveBtn {
+  background: #ff6d61;
+  width: 100px;
+  margin-left: auto;
+}
+
+.copyBtn{
+  background: #ff6d61;
+}
+
+.joinBtn:hover,
+.leaveBtn:hover,
+.copyBtn:hover {
+  background: #ff3018;
+}
+
+.createInfo {
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.createNewBtn {
+  color: #ff6d61;
+  text-decoration: none;
+  border-bottom: 1px solid #ff6d61;
+  transition: all 0.3s ease-in-out;
+}
+
+.createNewBtn:hover {
+  color: #ff3018;
+  border-color: #ff3018;
+}
+
+.mainWrap {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  /* height: 100vh; */
+}
+.aside {
+  background: #1c1e29;
+  padding: 16px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.asideInner {
+  /* grows this div till bottom to push the buttons at bottom */
+  flex: 1;
+}
+
+.clientsList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.client {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-weight: bold;
+
+}
+
+.userName {
+  margin-top: 5px;
+}
+
+.logo {
+  border-bottom: 1px solid #e77373;
+  padding-bottom: 10px;
+}
+
+.logoImage {
+  height: 60px;
+}
+
+.leaveBtn {
+  margin-top: 15px;
+  width: 100%;
+}
+
+/* saw the classname from console because it is included automatically by codemirror itself */
+.CodeMirror {
+  min-height: calc(100vh - 240px);
+  font-size: 20px;
+  line-height: 1.6;
+  padding-top: 20px;
+}
+
+.menu {
+  display: flex;
+  background-color:#51477e;
+  /* justify-content: space-between; */ 
+  flex-direction: row;
+  color: white;
+  /* max-width: 600px; */
+  padding: 10px;
+
+}
+
+.menu div {
+  margin-right: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+select {
+  width: 200px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  color: #444;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+select:focus {
+  outline: none;
+  border-color: #66afe9;
+  box-shadow: 0 0 5px rgba(102, 175, 233, 0.5);
+}
+
+select:hover {
+  background-color: #e8b8b8;
+}
+
+option {
+  background-color: #fff;
+  color: #444;
+}
+
+option:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style for dropdown arrow */
+select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Hide arrow in IE */
+select::-ms-expand {
+  display: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* down start */
+.down {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: row;
+  background-color:rgb(53, 54, 99);
+  gap: 15px;
+  padding: 10px;
+  
 }
 
-.App-link {
-  color: #61dafb;
+.h-50 {
+  flex: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.text-light {
+  color: #000000; /* Assuming you want light text color */
+}
+
+textarea {
+  width: 100%;
+  height: 60%;
+  resize: none; 
+  border-radius: 10px;
+  border-top: #66afe9;
+  font-size: 20px;
+  padding: 5px;
+}
+
+.inputLabel{
+  color: #ffffff;
+  padding-left: 10px;
+}
+.outputLabel{
+  color: #ffffff;
+  padding-left: 10px;
 }
