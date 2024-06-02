@@ -20,9 +20,11 @@ import 'codemirror/addon/edit/trailingspace';
 import 'codemirror/addon/display/placeholder';
 import 'codemirror/addon/selection/active-line';
 import ACTIONS from '../Actions';
+import toast from 'react-hot-toast';
 
 const Editor = ({ socketRef, roomId, onCodeChange }) => {
   const editorRef = useRef(null);
+  const currentLineRef = useRef(null); // Ref to store the current line number
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [Lang, setLang] = useState('python');
@@ -96,6 +98,15 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
           });
         }
       });
+
+      editorRef.current.on('cursorActivity', (instance) => {
+        const cursor = instance.getCursor();
+        currentLineRef.current = cursor.line; // Update the current line ref
+        socketRef.current.emit(ACTIONS.CURSOR_CHANGE, {
+          roomId,
+          cursor,
+        });
+      });
     }
     init();
   }, []);
@@ -116,12 +127,22 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
           editorRef.current.scrollTo(scrollInfo.left, scrollInfo.top);
         }
       });
-    }
 
+      socketRef.current.on(ACTIONS.CURSOR_CHANGE, ({ socketId, cursor }) => {
+        if (socketId !== socketRef.current.id) {
+          console.log(`my ${currentLineRef.current} and your ${cursor.line}`);
+          if (currentLineRef.current === cursor.line) {
+            toast.success("other user is on this line.")
+          }
+        }
+      });
+    }
+  
     return () => {
       socketRef.current.off(ACTIONS.CODE_CHANGE);
+      socketRef.current.off(ACTIONS.CURSOR_CHANGE);
     };
-  }, [socketRef.current]);
+  }, [socketRef.current, currentLineRef.current]);
 
   const handleModeChange = (e) => {
     const mode = e.target.value;
@@ -147,7 +168,7 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
     }
 
     // Make a POST request to the server
-    fetch('https://server-ju8b.onrender.com/runcode', {
+    fetch('http://localhost:5000/runcode', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -159,9 +180,6 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
           setOutput("Wrong Code! Please check for errors....");
           throw new Error('Network response was not ok');
         }
-        // console.log(response.json());
-        // let b = response.json();
-        // console.log(b);
         return response.json();
       })
       .then(data => {
@@ -172,10 +190,7 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
         } else {
           // Handle error, if any
           console.error('Error:', data.error);
-
         }
-        // let a = data.json();
-        // console.log(data.output);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -191,7 +206,6 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
             <option value="python">python</option>
             <option value="cplusplus">Cpp</option>
             <option value="java">Java</option>
-
           </select>
         </div>
         <div>
@@ -219,6 +233,11 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
         </div>
       </div>
       <textarea id="realtimeEditor"></textarea>
+      <style>{`
+        .CodeMirror-line.background {
+          background-color: rgba(255, 255, 0, 0.5);
+        }
+      `}</style>
     </>
   );
 };
