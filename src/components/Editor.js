@@ -132,7 +132,7 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
         if (socketId !== socketRef.current.id) {
           console.log(`my ${currentLineRef.current} and your ${cursor.line}`);
           if (currentLineRef.current === cursor.line) {
-            toast.success("other user is on this line.")
+            toast.success("This line already is in use.")
           }
         }
       });
