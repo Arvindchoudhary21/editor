@@ -168,7 +168,7 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
     }
 
     // Make a POST request to the server
-    fetch('http://localhost:5000/runcode', {
+    fetch('https://server-ju8b.onrender.com/runcode', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
