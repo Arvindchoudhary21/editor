@@ -9,7 +9,7 @@ function App() {
       <div>
         <Toaster position='top-right' toastOptions={{
           style: {
-            background: '#E96252',
+            background: '#A24700',
             color: '#fff',
           },
           success: {

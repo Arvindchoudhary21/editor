@@ -99,14 +99,25 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
         }
       });
 
-      editorRef.current.on('cursorActivity', (instance) => {
+      // Debounce function to handle cursor activity
+      const debounce = (func, wait) => {
+        let timeout;
+        return (...args) => {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+      };
+
+      const handleCursorActivity = debounce((instance) => {
         const cursor = instance.getCursor();
         currentLineRef.current = cursor.line; // Update the current line ref
         socketRef.current.emit(ACTIONS.CURSOR_CHANGE, {
           roomId,
           cursor,
         });
-      });
+      }, 10); // Adjust debounce time as needed
+
+      editorRef.current.on('cursorActivity', handleCursorActivity);
     }
     init();
   }, []);
@@ -132,7 +143,7 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
         if (socketId !== socketRef.current.id) {
           console.log(`my ${currentLineRef.current} and your ${cursor.line}`);
           if (currentLineRef.current === cursor.line) {
-            toast.success("This line already is in use.")
+            toast.error("This line already is in use.")
           }
         }
       });
